@@ -1,3 +1,5 @@
+import 'package:units_converter/utils/unit_localization_utils.dart';
+
 import 'unit.dart';
 
 enum PROPERTY {
@@ -44,4 +46,13 @@ abstract class Property<K, V> {
 
   /// Returns the [Unit] with the corresponding name
   Unit getUnit(K name);
+
+  /// Multi-language display name
+  String? _displayNameCache;
+  String get displayName {
+    _displayNameCache ??= UnitLocalizationUtils.getPropertyName(
+      name.toString().toLowerCase(),
+    );
+    return _displayNameCache!;
+  }
 }

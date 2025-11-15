@@ -1,7 +1,9 @@
 import 'dart:collection';
+
 import 'package:units_converter/models/conversion_node.dart';
 import 'package:units_converter/models/property.dart';
 import 'package:units_converter/models/unit.dart';
+import 'package:units_converter/utils/unit_localization_utils.dart';
 import 'package:units_converter/utils/utils.dart';
 
 abstract class DoubleProperty<T> extends Property<T, double> {
@@ -63,8 +65,11 @@ abstract class DoubleProperty<T> extends Property<T, double> {
     _mapUnits = {for (var node in _nodeList) node.name: node};
     size = _nodeList.length;
     for (var conversionNode in _nodeList) {
-      _unitList.add(
-          Unit(conversionNode.name, symbol: mapSymbols?[conversionNode.name]));
+      _unitList.add(Unit(
+        conversionNode.name,
+        symbol: mapSymbols?[conversionNode.name],
+        propertyKey: name.toString(),
+      ));
     }
   }
 

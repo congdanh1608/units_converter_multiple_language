@@ -1,6 +1,7 @@
 import 'package:units_converter/models/property.dart';
 import 'package:units_converter/models/unit.dart';
 import 'package:units_converter/utils/utils.dart';
+import 'package:units_converter/utils/unit_localization_utils.dart';
 
 abstract class RatioProperty<T extends Enum, N, D> extends Property<T, double> {
   /// Map between units and its symbol, must be of the same size of T
@@ -34,7 +35,11 @@ abstract class RatioProperty<T extends Enum, N, D> extends Property<T, double> {
     this.name = name;
     size = mapSymbols.length;
     for (var unit in mapSymbols.keys) {
-      _unitList.add(Unit(unit, symbol: mapSymbols[unit]));
+      _unitList.add(Unit(
+        unit,
+        symbol: mapSymbols[unit],
+        propertyKey: name.toString(),
+      ));
     }
   }
 

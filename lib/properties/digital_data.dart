@@ -51,6 +51,7 @@ class DigitalData extends DoubleProperty<DIGITAL_DATA> {
           name: name ?? PROPERTY.digitalData,
           mapSymbols: {
             DIGITAL_DATA.bit: 'b',
+            DIGITAL_DATA.nibble: '4-bit',
             DIGITAL_DATA.kilobit: 'kb',
             DIGITAL_DATA.megabit: 'Mb',
             DIGITAL_DATA.gigabit: 'Gb',

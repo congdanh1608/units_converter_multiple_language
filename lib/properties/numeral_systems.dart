@@ -2,6 +2,7 @@ import 'package:units_converter/models/conversion_node.dart';
 import 'package:units_converter/models/property.dart';
 import 'package:units_converter/models/unit.dart';
 import 'package:units_converter/utils/utils.dart';
+import 'package:units_converter/utils/unit_localization_utils.dart';
 
 //Available NUMERAL_SYSTEMS units
 // ignore: camel_case_types
@@ -14,6 +15,7 @@ enum NUMERAL_SYSTEMS {
 
 class NumeralSystems extends Property<NUMERAL_SYSTEMS, String> {
   late ConversionNode<NUMERAL_SYSTEMS> conversionTree;
+
   //Map between units and its symbol
   static const Map<NUMERAL_SYSTEMS, String> mapSymbols = {
     NUMERAL_SYSTEMS.decimal: '₁₀',
@@ -33,7 +35,12 @@ class NumeralSystems extends Property<NUMERAL_SYSTEMS, String> {
   NumeralSystems({dynamic name}) {
     this.name = name ?? PROPERTY.numeralSystems;
     size = NUMERAL_SYSTEMS.values.length;
-    mapSymbols.forEach((key, value) => _unitList.add(Unit(key, symbol: value)));
+    mapSymbols.forEach((key, value) =>
+        _unitList.add(Unit(
+          key,
+          symbol: value,
+          propertyKey: name.toString(),
+        )));
   }
 
   ///Converts a unit with a specific name (e.g. NUMERAL_SYSTEMS.decimal) and value to all other units
@@ -57,10 +64,14 @@ class NumeralSystems extends Property<NUMERAL_SYSTEMS, String> {
       NUMERAL_SYSTEMS.binary: 2,
     };
 
-    _unitList.singleWhere((e) => e.name == name).stringValue = value;
+    _unitList
+        .singleWhere((e) => e.name == name)
+        .stringValue = value;
     if (name == NUMERAL_SYSTEMS.decimal) {
       for (var base in bases.keys.where((e) => e != NUMERAL_SYSTEMS.decimal)) {
-        _unitList.singleWhere((e) => e.name == base).stringValue =
+        _unitList
+            .singleWhere((e) => e.name == base)
+            .stringValue =
             decToBase(value, bases[base]!);
       }
     } else {
@@ -70,7 +81,9 @@ class NumeralSystems extends Property<NUMERAL_SYSTEMS, String> {
           .stringValue = decimal;
       for (var base in bases.keys
           .where((e) => e != NUMERAL_SYSTEMS.decimal && e != name)) {
-        _unitList.singleWhere((e) => e.name == base).stringValue =
+        _unitList
+            .singleWhere((e) => e.name == base)
+            .stringValue =
             decToBase(decimal, bases[base]!);
       }
     }
@@ -83,10 +96,15 @@ class NumeralSystems extends Property<NUMERAL_SYSTEMS, String> {
   ///Returns the Unit with the corresponding name
   @override
   Unit getUnit(var name) =>
-      _unitList.where((element) => element.name == name).single;
+      _unitList
+          .where((element) => element.name == name)
+          .single;
 
   Unit get decimal => getUnit(NUMERAL_SYSTEMS.decimal);
+
   Unit get hexadecimal => getUnit(NUMERAL_SYSTEMS.hexadecimal);
+
   Unit get octal => getUnit(NUMERAL_SYSTEMS.octal);
+
   Unit get binary => getUnit(NUMERAL_SYSTEMS.binary);
 }
